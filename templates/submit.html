@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body_block %}
+<link rel="stylesheet" href="{% static 'style.css'%}">
+  <div class="container">
+    <div class="jumbotron">
+
+      {% if user.is_authenticated %}
+      <h2>Food Bank</h2>
+      <p>Submitted Successfully!!</p>
+    {% else %}
+    <h1>Please Login</h1>
+
+    <form method="post" action="{% url 'FoodBankManage:user_login' %}">
+      {% csrf_token %}
+      
+      <label for="username">Username:</label>
+      <input type="text" name="username" placeholder="Username">
+
+      <label for="password"></label>
+      <input type="password" name="password">
+
+      <input type="submit" name="" value="Login">
+
+    </form>
+
+    {% endif %}
+
+      
+</div>
+  
+{% endblock %}
+

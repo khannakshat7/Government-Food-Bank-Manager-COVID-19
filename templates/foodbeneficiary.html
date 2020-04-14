@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body_block %}
+<link rel="stylesheet" href="{% static 'style.css'%}">
+  <div class="container">
+    <div class="jumbotron">
+
+      {% if user.is_authenticated %}
+      <h2>Food Bank Beneficiaries</h2>
+    {% else %}
+    <h1>Please Login</h1>
+
+    <form method="post" action="{% url 'FoodBankManage:user_login' %}">
+      {% csrf_token %}
+      
+      <label for="username">Username:</label>
+      <input type="text" name="username" placeholder="Username">
+
+      <label for="password"></label>
+      <input type="password" name="password">
+
+      <input type="submit" name="" value="Login">
+
+    </form>
+
+    {% endif %}
+
+      
+    </div>
+
+    {% if user.is_authenticated %}
+    <div class="contai">  
+        <form id="contact" name="beneficiary" action="../foodBankAdd/" method="POST">
+          {% csrf_token %}
+            <fieldset>
+              <select name="block_name" id="block" >
+                    <option value="{{ blocke }}">{{ blocke }}</option>
+                </select>
+            </fieldset>
+            <fieldset>
+                <select name="gram" id="gram">
+                    <option value="">Gram Panchayat</option>
+                    {% for gram in pancha %}
+                    <option value="{{ gram }}">{{ gram }}</option>
+                    {% endfor %}
+                </select>
+            </fieldset>
+            <fieldset>
+                <input placeholder="Head Of Family (Name)" name="head" type="text" tabindex="1" required autofocus>
+            </fieldset>
+          <fieldset>
+            <input placeholder="Total Members In Family" name="members" type="text" tabindex="1" required autofocus>
+          </fieldset>
+          <fieldset>
+            <input placeholder="Mobile" type="text" name="mobile" tabindex="2" required>
+          </fieldset>
+          <fieldset>
+            <p>NFSA</p>
+            <input type="radio" id="yes" name="NFSA" value="1">
+            <label for="yes">Yes</label><br>
+            <input type="radio" id="no" name="NFSA" value="0">
+            <label for="no">No</label><br>
+          </fieldset>
+          <fieldset>
+            <input placeholder="Food Packet (Count)" name="foodpacket" type="text" tabindex="4" required>
+          </fieldset>
+          <fieldset>
+            <input placeholder="Wheat (In Kg)" name="wheat" type="text" tabindex="5" required>
+          </fieldset>
+          <fieldset>
+            <input placeholder="Rice (In Kg)" name="rice" type="text" tabindex="6" required>
+          </fieldset>
+          <fieldset>
+            <button name="submit" type="submit" id="contact-submit" data-submit="...Sending">Submit</button>
+          </fieldset>
+          
+        </form>
+      </div>
+
+    {% endif %}
+  </div>
+
+  
+{% endblock %}
+

@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body_block %}
+<link rel="stylesheet" href="{% static 'style.css'%}">
+  <div class="container">
+    <div class="jumbotron">
+
+      {% if user.is_authenticated %}
+      <h2>Food Bank Inventory</h2>
+      <h4>Dry Food Packet Details</h4>
+    {% else %}
+    <h1>Please Login</h1>
+
+    <form method="post" action="{% url 'FoodBankManage:user_login' %}">
+      {% csrf_token %}
+      
+      <label for="username">Username:</label>
+      <input type="text" name="username" placeholder="Username">
+
+      <label for="password"></label>
+      <input type="password" name="password">
+
+      <input type="submit" name="" value="Login">
+
+    </form>
+
+    {% endif %}
+
+      
+    </div>
+
+    {% if user.is_authenticated %}
+    <div class="contai">  
+        <form id="contact" name="inventory" action="../foodBankInventrydryAdd/" method="POST">
+          {% csrf_token %}
+            <fieldset>
+              <select name="block_name" id="block" >
+                    <option value="{{ blocke }}">{{ blocke }}</option>
+                </select>
+            </fieldset>
+            <fieldset>
+                <select name="gram" id="gram">
+                    <option value="">Gram Panchayat</option>
+                    {% for gram in pancha %}
+                    <option value="{{ gram }}">{{ gram }}</option>
+                    {% endfor %}
+                </select>
+            </fieldset>
+            <fieldset>
+                <input placeholder="Available" name="available" class="numinput" type="number" min="0" tabindex="1" required autofocus>
+            </fieldset>
+          <fieldset>
+            <input placeholder="Recieved (From Bhamashah)" name="receivedbhama" class="numinput" type="number" min="0" tabindex="1" required autofocus>
+          </fieldset>
+          <fieldset>
+            <input placeholder="Recieved (From Government)" type="number" min="0" class="numinput" name="receivedgovt" tabindex="2" required>
+          </fieldset>
+          <fieldset>
+            <input placeholder="Recieved (From NGO)" name="receivedngo" min="0" class="numinput" type="number" tabindex="4" required>
+          </fieldset>
+          <fieldset>
+            <input placeholder="Distributed" name="distributed" class="numinput" type="number" min="0" tabindex="5" required>
+          </fieldset>
+          <fieldset>
+            <input placeholder="Required" name="Required" type="number" min="0" class="numinput" tabindex="6" required>
+          </fieldset>
+          <fieldset>
+            <button name="submit" type="submit" id="contact-submit" data-submit="...Sending">Submit</button>
+          </fieldset>
+          
+        </form>
+      </div>
+
+    {% endif %}
+  </div>
+
+  
+{% endblock %}
+
